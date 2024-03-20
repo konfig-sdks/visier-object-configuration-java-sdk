@@ -1,0 +1,1892 @@
+openapi: 3.0.3
+info:
+  description: Visier APIs for managing objects in studio experience
+  license:
+    name: "Apache License, Version 2.0"
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  title: Visier Object Configuration APIs
+  version: 22222222.99201.1200
+  x-api-status-urls: false
+  x-konfig-has-globally-required-security: true
+servers:
+- url: "https://{vanity-name}.api.visier.io"
+  variables:
+    vanity-name:
+      default: vanity
+security:
+- ApiKeyAuth: []
+  BearerAuth: []
+- ApiKeyAuth: []
+  CookieAuth: []
+- ApiKeyAuth: []
+  OAuth2Auth: []
+tags:
+- name: ObjectConfiguration
+paths:
+  /v1/admin/calculation-concepts:
+    get:
+      description: This API allows you to retrieve the calculation concepts available
+        in production.
+      operationId: ObjectConfiguration_GetCalculationConcepts
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalculationConceptListDTO'
+          description: OK
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: Default error response
+      summary: Retrieve all calculation concepts
+      tags:
+      - ObjectConfiguration
+      x-konfig-operation-can-have-single-parameter: true
+      x-konfig-single-parameter-schema: konfig-generated-schema-single-parameter-schema-get--v1-admin-calculation-concepts
+      x-accepts: application/json
+  /v1/admin/calculation-concepts/{conceptId}:
+    get:
+      description: This API allows you to retrieve the configuration details of a
+        calculation concept in production.
+      operationId: ObjectConfiguration_GetCalculationConcept
+      parameters:
+      - description: The ID of the concept to retrieve the configuration for.
+        explode: false
+        in: path
+        name: conceptId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalculationConceptDTO'
+          description: OK
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: Default error response
+      summary: Retrieve the configuration of a calculation concept
+      tags:
+      - ObjectConfiguration
+      x-konfig-operation-can-have-single-parameter: true
+      x-konfig-single-parameter-schema: konfig-generated-schema-single-parameter-schema-get--v1-admin-calculation-concepts-conceptId
+      x-accepts: application/json
+  /v1/admin/calculation-concepts/{conceptId}/configure:
+    put:
+      description: |-
+        This API allows you to map dimension members to nodes in a calculation concept.
+         The changes are applied in a new project and published to production.
+
+         The body of this API is the source of truth for dimension members mapped to the concept. For example, if a node in
+         the body does not have any dimension members, all existing dimension members mapped to that node will be removed.
+      operationId: ObjectConfiguration_MapCalculationConcept
+      parameters:
+      - description: The UUID of the concept to configure.
+        explode: false
+        in: path
+        name: conceptId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculationConceptConfigurationMapDTO'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConceptConfigurationResultDTO'
+          description: OK
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: Default error response
+      summary: Map dimension members to nodes in a calculation concept
+      tags:
+      - ObjectConfiguration
+      x-konfig-operation-can-have-single-parameter: true
+      x-konfig-single-parameter-schema: konfig-generated-schema-single-parameter-schema-put--v1-admin-calculation-concepts-conceptId-configure
+      x-content-type: application/json
+      x-accepts: application/json
+  /v1/admin/selection-concepts:
+    get:
+      description: This API allows you to retrieve the selection concepts available
+        in production.
+      operationId: ObjectConfiguration_GetSelectionConcepts
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectionConceptListDTO'
+          description: OK
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: Default error response
+      summary: Retrieve all selection concepts
+      tags:
+      - ObjectConfiguration
+      x-konfig-operation-can-have-single-parameter: true
+      x-konfig-single-parameter-schema: konfig-generated-schema-single-parameter-schema-get--v1-admin-selection-concepts
+      x-accepts: application/json
+  /v1/admin/selection-concepts/{conceptId}:
+    get:
+      description: This API allows you to retrieve the configuration details of a
+        selection concept in production.
+      operationId: ObjectConfiguration_GetSelectionConcept
+      parameters:
+      - description: The ID of the concept to retrieve the configuration for.
+        explode: false
+        in: path
+        name: conceptId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectionConceptDTO'
+          description: OK
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: Default error response
+      summary: Retrieve the configuration of a selection concept
+      tags:
+      - ObjectConfiguration
+      x-konfig-operation-can-have-single-parameter: true
+      x-konfig-single-parameter-schema: konfig-generated-schema-single-parameter-schema-get--v1-admin-selection-concepts-conceptId
+      x-accepts: application/json
+  /v1/admin/selection-concepts/{conceptId}/configure:
+    put:
+      description: |-
+        This API allows you to map dimension members to a selection concept.
+         The changes are applied to a new project and published to production.
+
+         The body of this API is the source of truth for dimension members mapped to the concept. For example, if a node in
+         the body does not have any dimension members, all existing dimension members mapped to that node will be removed.
+      operationId: ObjectConfiguration_MapSelectionConcept
+      parameters:
+      - description: The UUID of the concept to configure.
+        explode: false
+        in: path
+        name: conceptId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectionConceptConfigurationMapDTO'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConceptConfigurationResultDTO'
+          description: OK
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: Default error response
+      summary: Map dimension members to a selection concept
+      tags:
+      - ObjectConfiguration
+      x-konfig-operation-can-have-single-parameter: true
+      x-konfig-single-parameter-schema: konfig-generated-schema-single-parameter-schema-put--v1-admin-selection-concepts-conceptId-configure
+      x-content-type: application/json
+      x-accepts: application/json
+components:
+  schemas:
+    AnalyticObjectFilterDTO:
+      example:
+        analyticObjectUuid: analyticObjectUuid
+        symbolName: symbolName
+        dimensions:
+        - dimensionId: dimensionId
+          symbolName: symbolName
+          dimensionMembers:
+          - dimensionMember:
+            - dimensionMember
+            - dimensionMember
+          - dimensionMember:
+            - dimensionMember
+            - dimensionMember
+        - dimensionId: dimensionId
+          symbolName: symbolName
+          dimensionMembers:
+          - dimensionMember:
+            - dimensionMember
+            - dimensionMember
+          - dimensionMember:
+            - dimensionMember
+            - dimensionMember
+      properties:
+        analyticObjectUuid:
+          description: The UUID of the analytic object used in the selection concept.
+          type: string
+        symbolName:
+          description: The symbol name of the analytic object.
+          type: string
+        dimensions:
+          description: A list of dimensions included in the concept.
+          items:
+            $ref: '#/components/schemas/DimensionFilterDTO'
+          type: array
+      type: object
+    CalculationConceptConfigurationDTO:
+      example:
+        perspectives:
+        - perspectiveNodes:
+          - symbolName: symbolName
+            analyticObjectFilters:
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            selectionConceptUuid: selectionConceptUuid
+          - symbolName: symbolName
+            analyticObjectFilters:
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            selectionConceptUuid: selectionConceptUuid
+          perspectiveId: perspectiveId
+          perspectiveName: perspectiveName
+        - perspectiveNodes:
+          - symbolName: symbolName
+            analyticObjectFilters:
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            selectionConceptUuid: selectionConceptUuid
+          - symbolName: symbolName
+            analyticObjectFilters:
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            selectionConceptUuid: selectionConceptUuid
+          perspectiveId: perspectiveId
+          perspectiveName: perspectiveName
+      properties:
+        perspectives:
+          description: A list of objects representing the perspectives in the calculation
+            concept.
+          items:
+            $ref: '#/components/schemas/PerspectiveConfigurationDTO'
+          type: array
+      type: object
+    CalculationConceptConfigurationMapDTO:
+      description: The configuration to apply to the concept.
+      example:
+        perspectivesToMap:
+        - perspectiveNodes:
+          - symbolName: symbolName
+            analyticObjectFilters:
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            selectionConceptUuid: selectionConceptUuid
+          - symbolName: symbolName
+            analyticObjectFilters:
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            selectionConceptUuid: selectionConceptUuid
+          perspectiveId: perspectiveId
+          perspectiveName: perspectiveName
+        - perspectiveNodes:
+          - symbolName: symbolName
+            analyticObjectFilters:
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            selectionConceptUuid: selectionConceptUuid
+          - symbolName: symbolName
+            analyticObjectFilters:
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            selectionConceptUuid: selectionConceptUuid
+          perspectiveId: perspectiveId
+          perspectiveName: perspectiveName
+      properties:
+        perspectivesToMap:
+          description: A list of objects representing the list of perspectives in
+            the calculation concept.
+          items:
+            $ref: '#/components/schemas/PerspectiveConfigurationDTO'
+          type: array
+      type: object
+    CalculationConceptDTO:
+      example:
+        configuration:
+          perspectives:
+          - perspectiveNodes:
+            - symbolName: symbolName
+              analyticObjectFilters:
+              - analyticObjectUuid: analyticObjectUuid
+                symbolName: symbolName
+                dimensions:
+                - dimensionId: dimensionId
+                  symbolName: symbolName
+                  dimensionMembers:
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                - dimensionId: dimensionId
+                  symbolName: symbolName
+                  dimensionMembers:
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+              - analyticObjectUuid: analyticObjectUuid
+                symbolName: symbolName
+                dimensions:
+                - dimensionId: dimensionId
+                  symbolName: symbolName
+                  dimensionMembers:
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                - dimensionId: dimensionId
+                  symbolName: symbolName
+                  dimensionMembers:
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+              selectionConceptUuid: selectionConceptUuid
+            - symbolName: symbolName
+              analyticObjectFilters:
+              - analyticObjectUuid: analyticObjectUuid
+                symbolName: symbolName
+                dimensions:
+                - dimensionId: dimensionId
+                  symbolName: symbolName
+                  dimensionMembers:
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                - dimensionId: dimensionId
+                  symbolName: symbolName
+                  dimensionMembers:
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+              - analyticObjectUuid: analyticObjectUuid
+                symbolName: symbolName
+                dimensions:
+                - dimensionId: dimensionId
+                  symbolName: symbolName
+                  dimensionMembers:
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                - dimensionId: dimensionId
+                  symbolName: symbolName
+                  dimensionMembers:
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+              selectionConceptUuid: selectionConceptUuid
+            perspectiveId: perspectiveId
+            perspectiveName: perspectiveName
+          - perspectiveNodes:
+            - symbolName: symbolName
+              analyticObjectFilters:
+              - analyticObjectUuid: analyticObjectUuid
+                symbolName: symbolName
+                dimensions:
+                - dimensionId: dimensionId
+                  symbolName: symbolName
+                  dimensionMembers:
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                - dimensionId: dimensionId
+                  symbolName: symbolName
+                  dimensionMembers:
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+              - analyticObjectUuid: analyticObjectUuid
+                symbolName: symbolName
+                dimensions:
+                - dimensionId: dimensionId
+                  symbolName: symbolName
+                  dimensionMembers:
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                - dimensionId: dimensionId
+                  symbolName: symbolName
+                  dimensionMembers:
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+              selectionConceptUuid: selectionConceptUuid
+            - symbolName: symbolName
+              analyticObjectFilters:
+              - analyticObjectUuid: analyticObjectUuid
+                symbolName: symbolName
+                dimensions:
+                - dimensionId: dimensionId
+                  symbolName: symbolName
+                  dimensionMembers:
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                - dimensionId: dimensionId
+                  symbolName: symbolName
+                  dimensionMembers:
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+              - analyticObjectUuid: analyticObjectUuid
+                symbolName: symbolName
+                dimensions:
+                - dimensionId: dimensionId
+                  symbolName: symbolName
+                  dimensionMembers:
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                - dimensionId: dimensionId
+                  symbolName: symbolName
+                  dimensionMembers:
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+                  - dimensionMember:
+                    - dimensionMember
+                    - dimensionMember
+              selectionConceptUuid: selectionConceptUuid
+            perspectiveId: perspectiveId
+            perspectiveName: perspectiveName
+        name: name
+        uuid: uuid
+      properties:
+        uuid:
+          description: The unique identifier associated with the calculation concept.
+          type: string
+        name:
+          description: The display name of the calculation concept.
+          type: string
+        configuration:
+          $ref: '#/components/schemas/CalculationConceptConfigurationDTO'
+      type: object
+      x-konfig-properties:
+        configuration:
+          description: A list of objects representing the configuration for the calculation
+            concept.
+      x-konfig-is-used-in-successful-response: true
+    CalculationConceptListDTO:
+      example:
+        concepts:
+        - configuration:
+            perspectives:
+            - perspectiveNodes:
+              - symbolName: symbolName
+                analyticObjectFilters:
+                - analyticObjectUuid: analyticObjectUuid
+                  symbolName: symbolName
+                  dimensions:
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                - analyticObjectUuid: analyticObjectUuid
+                  symbolName: symbolName
+                  dimensions:
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                selectionConceptUuid: selectionConceptUuid
+              - symbolName: symbolName
+                analyticObjectFilters:
+                - analyticObjectUuid: analyticObjectUuid
+                  symbolName: symbolName
+                  dimensions:
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                - analyticObjectUuid: analyticObjectUuid
+                  symbolName: symbolName
+                  dimensions:
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                selectionConceptUuid: selectionConceptUuid
+              perspectiveId: perspectiveId
+              perspectiveName: perspectiveName
+            - perspectiveNodes:
+              - symbolName: symbolName
+                analyticObjectFilters:
+                - analyticObjectUuid: analyticObjectUuid
+                  symbolName: symbolName
+                  dimensions:
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                - analyticObjectUuid: analyticObjectUuid
+                  symbolName: symbolName
+                  dimensions:
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                selectionConceptUuid: selectionConceptUuid
+              - symbolName: symbolName
+                analyticObjectFilters:
+                - analyticObjectUuid: analyticObjectUuid
+                  symbolName: symbolName
+                  dimensions:
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                - analyticObjectUuid: analyticObjectUuid
+                  symbolName: symbolName
+                  dimensions:
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                selectionConceptUuid: selectionConceptUuid
+              perspectiveId: perspectiveId
+              perspectiveName: perspectiveName
+          name: name
+          uuid: uuid
+        - configuration:
+            perspectives:
+            - perspectiveNodes:
+              - symbolName: symbolName
+                analyticObjectFilters:
+                - analyticObjectUuid: analyticObjectUuid
+                  symbolName: symbolName
+                  dimensions:
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                - analyticObjectUuid: analyticObjectUuid
+                  symbolName: symbolName
+                  dimensions:
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                selectionConceptUuid: selectionConceptUuid
+              - symbolName: symbolName
+                analyticObjectFilters:
+                - analyticObjectUuid: analyticObjectUuid
+                  symbolName: symbolName
+                  dimensions:
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                - analyticObjectUuid: analyticObjectUuid
+                  symbolName: symbolName
+                  dimensions:
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                selectionConceptUuid: selectionConceptUuid
+              perspectiveId: perspectiveId
+              perspectiveName: perspectiveName
+            - perspectiveNodes:
+              - symbolName: symbolName
+                analyticObjectFilters:
+                - analyticObjectUuid: analyticObjectUuid
+                  symbolName: symbolName
+                  dimensions:
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                - analyticObjectUuid: analyticObjectUuid
+                  symbolName: symbolName
+                  dimensions:
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                selectionConceptUuid: selectionConceptUuid
+              - symbolName: symbolName
+                analyticObjectFilters:
+                - analyticObjectUuid: analyticObjectUuid
+                  symbolName: symbolName
+                  dimensions:
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                - analyticObjectUuid: analyticObjectUuid
+                  symbolName: symbolName
+                  dimensions:
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                  - dimensionId: dimensionId
+                    symbolName: symbolName
+                    dimensionMembers:
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                    - dimensionMember:
+                      - dimensionMember
+                      - dimensionMember
+                selectionConceptUuid: selectionConceptUuid
+              perspectiveId: perspectiveId
+              perspectiveName: perspectiveName
+          name: name
+          uuid: uuid
+      properties:
+        concepts:
+          description: A list of objects representing calculation concepts.
+          items:
+            $ref: '#/components/schemas/CalculationConceptDTO'
+          type: array
+      type: object
+      x-konfig-is-used-in-successful-response: true
+    ConceptConfigurationResultDTO:
+      example:
+        conceptId: conceptId
+        message: message
+        projectId: projectId
+      properties:
+        conceptId:
+          description: The unique identifier of the configured concept.
+          type: string
+        projectId:
+          description: The unique identifier of the system-generated project.
+          type: string
+        message:
+          description: A meaningful message about the API result.
+          type: string
+      type: object
+      x-konfig-is-used-in-successful-response: true
+    DimensionFilterDTO:
+      example:
+        dimensionId: dimensionId
+        symbolName: symbolName
+        dimensionMembers:
+        - dimensionMember:
+          - dimensionMember
+          - dimensionMember
+        - dimensionMember:
+          - dimensionMember
+          - dimensionMember
+      properties:
+        dimensionId:
+          description: The UUID of the dimension.
+          type: string
+        symbolName:
+          description: The symbol name of the dimension.
+          type: string
+        dimensionMembers:
+          description: |-
+            A list of dimension members to map to the perspective node.
+
+             Note: If this array is empty, all dimension members will be removed for the node.
+          items:
+            $ref: '#/components/schemas/DimensionMemberDTO'
+          type: array
+      type: object
+    DimensionMemberDTO:
+      example:
+        dimensionMember:
+        - dimensionMember
+        - dimensionMember
+      properties:
+        dimensionMember:
+          description: |-
+            A list of strings representing the dimension members. Dimension members in a hierarchical dimension
+             will have an array with multiple strings.
+          items:
+            type: string
+          type: array
+      type: object
+    GoogleProtobufAny:
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that
+        describes the type of the serialized message.
+      properties:
+        '@type':
+          description: The type of the serialized message.
+          type: string
+      type: object
+    PerspectiveConfigurationDTO:
+      example:
+        perspectiveNodes:
+        - symbolName: symbolName
+          analyticObjectFilters:
+          - analyticObjectUuid: analyticObjectUuid
+            symbolName: symbolName
+            dimensions:
+            - dimensionId: dimensionId
+              symbolName: symbolName
+              dimensionMembers:
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+            - dimensionId: dimensionId
+              symbolName: symbolName
+              dimensionMembers:
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+          - analyticObjectUuid: analyticObjectUuid
+            symbolName: symbolName
+            dimensions:
+            - dimensionId: dimensionId
+              symbolName: symbolName
+              dimensionMembers:
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+            - dimensionId: dimensionId
+              symbolName: symbolName
+              dimensionMembers:
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+          selectionConceptUuid: selectionConceptUuid
+        - symbolName: symbolName
+          analyticObjectFilters:
+          - analyticObjectUuid: analyticObjectUuid
+            symbolName: symbolName
+            dimensions:
+            - dimensionId: dimensionId
+              symbolName: symbolName
+              dimensionMembers:
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+            - dimensionId: dimensionId
+              symbolName: symbolName
+              dimensionMembers:
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+          - analyticObjectUuid: analyticObjectUuid
+            symbolName: symbolName
+            dimensions:
+            - dimensionId: dimensionId
+              symbolName: symbolName
+              dimensionMembers:
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+            - dimensionId: dimensionId
+              symbolName: symbolName
+              dimensionMembers:
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+          selectionConceptUuid: selectionConceptUuid
+        perspectiveId: perspectiveId
+        perspectiveName: perspectiveName
+      properties:
+        perspectiveId:
+          description: The UUID of the perspective.
+          type: string
+        perspectiveName:
+          description: The display name of the perspective.
+          type: string
+        perspectiveNodes:
+          description: A list of nodes in the perspective.
+          items:
+            $ref: '#/components/schemas/PerspectiveNodeDTO'
+          type: array
+      type: object
+    PerspectiveNodeDTO:
+      example:
+        symbolName: symbolName
+        analyticObjectFilters:
+        - analyticObjectUuid: analyticObjectUuid
+          symbolName: symbolName
+          dimensions:
+          - dimensionId: dimensionId
+            symbolName: symbolName
+            dimensionMembers:
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+          - dimensionId: dimensionId
+            symbolName: symbolName
+            dimensionMembers:
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+        - analyticObjectUuid: analyticObjectUuid
+          symbolName: symbolName
+          dimensions:
+          - dimensionId: dimensionId
+            symbolName: symbolName
+            dimensionMembers:
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+          - dimensionId: dimensionId
+            symbolName: symbolName
+            dimensionMembers:
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+        selectionConceptUuid: selectionConceptUuid
+      properties:
+        selectionConceptUuid:
+          description: The UUID of the node's selection concept. Perspective nodes
+            are generated as selection concepts to enable filtering.
+          type: string
+        symbolName:
+          description: "The symbol name of the selection concept. For example, \"\
+            isExitActualSystemTermination\"."
+          type: string
+        analyticObjectFilters:
+          description: A list of analytic object filters indicating the analytic object
+            and dimensions used for the selection concept.
+          items:
+            $ref: '#/components/schemas/AnalyticObjectFilterDTO'
+          type: array
+      type: object
+    SelectionConceptConfigurationDTO:
+      example:
+        analyticObjectFilters:
+        - analyticObjectUuid: analyticObjectUuid
+          symbolName: symbolName
+          dimensions:
+          - dimensionId: dimensionId
+            symbolName: symbolName
+            dimensionMembers:
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+          - dimensionId: dimensionId
+            symbolName: symbolName
+            dimensionMembers:
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+        - analyticObjectUuid: analyticObjectUuid
+          symbolName: symbolName
+          dimensions:
+          - dimensionId: dimensionId
+            symbolName: symbolName
+            dimensionMembers:
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+          - dimensionId: dimensionId
+            symbolName: symbolName
+            dimensionMembers:
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+      properties:
+        analyticObjectFilters:
+          description: A list of analytic object filters indicating the analytic object
+            and dimension used for this selection concept.
+          items:
+            $ref: '#/components/schemas/AnalyticObjectFilterDTO'
+          type: array
+      type: object
+    SelectionConceptConfigurationMapDTO:
+      example:
+        analyticObjectFiltersToMap:
+        - analyticObjectUuid: analyticObjectUuid
+          symbolName: symbolName
+          dimensions:
+          - dimensionId: dimensionId
+            symbolName: symbolName
+            dimensionMembers:
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+          - dimensionId: dimensionId
+            symbolName: symbolName
+            dimensionMembers:
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+        - analyticObjectUuid: analyticObjectUuid
+          symbolName: symbolName
+          dimensions:
+          - dimensionId: dimensionId
+            symbolName: symbolName
+            dimensionMembers:
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+          - dimensionId: dimensionId
+            symbolName: symbolName
+            dimensionMembers:
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+            - dimensionMember:
+              - dimensionMember
+              - dimensionMember
+      properties:
+        analyticObjectFiltersToMap:
+          description: |-
+            A list of analytic object filters indicating the analytic object and dimension members used
+             for the selection concept.
+
+             Note: If this array is empty, all filters will be removed for the concept.
+          items:
+            $ref: '#/components/schemas/AnalyticObjectFilterDTO'
+          type: array
+      type: object
+    SelectionConceptDTO:
+      example:
+        configuration:
+          analyticObjectFilters:
+          - analyticObjectUuid: analyticObjectUuid
+            symbolName: symbolName
+            dimensions:
+            - dimensionId: dimensionId
+              symbolName: symbolName
+              dimensionMembers:
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+            - dimensionId: dimensionId
+              symbolName: symbolName
+              dimensionMembers:
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+          - analyticObjectUuid: analyticObjectUuid
+            symbolName: symbolName
+            dimensions:
+            - dimensionId: dimensionId
+              symbolName: symbolName
+              dimensionMembers:
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+            - dimensionId: dimensionId
+              symbolName: symbolName
+              dimensionMembers:
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+              - dimensionMember:
+                - dimensionMember
+                - dimensionMember
+        name: name
+        uuid: uuid
+      properties:
+        uuid:
+          description: The unique identifier associated with the selection concept.
+          type: string
+        name:
+          description: The display name of the selection concept.
+          type: string
+        configuration:
+          $ref: '#/components/schemas/SelectionConceptConfigurationDTO'
+      type: object
+      x-konfig-properties:
+        configuration:
+          description: A list of objects representing the configuration for the selection
+            concept.
+      x-konfig-is-used-in-successful-response: true
+    SelectionConceptListDTO:
+      example:
+        concepts:
+        - configuration:
+            analyticObjectFilters:
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+          name: name
+          uuid: uuid
+        - configuration:
+            analyticObjectFilters:
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+            - analyticObjectUuid: analyticObjectUuid
+              symbolName: symbolName
+              dimensions:
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+              - dimensionId: dimensionId
+                symbolName: symbolName
+                dimensionMembers:
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+                - dimensionMember:
+                  - dimensionMember
+                  - dimensionMember
+          name: name
+          uuid: uuid
+      properties:
+        concepts:
+          description: A list of objects representing selection concepts.
+          items:
+            $ref: '#/components/schemas/SelectionConceptDTO'
+          type: array
+      type: object
+      x-konfig-is-used-in-successful-response: true
+    Status:
+      description: "The `Status` type defines a logical error model that is suitable\
+        \ for different programming environments, including REST APIs and RPC APIs.\
+        \ It is used by [gRPC](https://github.com/grpc). Each `Status` message contains\
+        \ three pieces of data: error code, error message, and error details. You\
+        \ can find out more about this error model and how to work with it in the\
+        \ [API Design Guide](https://cloud.google.com/apis/design/errors)."
+      properties:
+        code:
+          description: "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+          format: int32
+          type: integer
+        message:
+          description: "A developer-facing error message, which should be in English.\
+            \ Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details]\
+            \ field, or localized by the client."
+          type: string
+        details:
+          description: A list of messages that carry the error details.  There is
+            a common set of message types for APIs to use.
+          items:
+            $ref: '#/components/schemas/GoogleProtobufAny'
+          type: array
+      type: object
+      x-konfig-is-used-in-successful-response: true
+    konfig-generated-schema-single-parameter-schema-get--v1-admin-calculation-concepts:
+      properties: {}
+      type: object
+      x-do-not-generate: true
+      x-konfig-is-parameter: []
+    konfig-generated-schema-single-parameter-schema-get--v1-admin-calculation-concepts-conceptId:
+      properties:
+        conceptId:
+          type: string
+      required:
+      - conceptId
+      type: object
+      x-do-not-generate: true
+      x-konfig-is-parameter:
+      - conceptId
+    konfig-generated-schema-single-parameter-schema-put--v1-admin-calculation-concepts-conceptId-configure:
+      properties:
+        conceptId:
+          type: string
+        perspectivesToMap:
+          description: A list of objects representing the list of perspectives in
+            the calculation concept.
+          items:
+            $ref: '#/components/schemas/PerspectiveConfigurationDTO'
+          type: array
+      required:
+      - conceptId
+      type: object
+      x-do-not-generate: true
+      x-konfig-is-parameter:
+      - conceptId
+    konfig-generated-schema-single-parameter-schema-get--v1-admin-selection-concepts:
+      properties: {}
+      type: object
+      x-do-not-generate: true
+      x-konfig-is-parameter: []
+    konfig-generated-schema-single-parameter-schema-get--v1-admin-selection-concepts-conceptId:
+      properties:
+        conceptId:
+          type: string
+      required:
+      - conceptId
+      type: object
+      x-do-not-generate: true
+      x-konfig-is-parameter:
+      - conceptId
+    konfig-generated-schema-single-parameter-schema-put--v1-admin-selection-concepts-conceptId-configure:
+      properties:
+        conceptId:
+          type: string
+        analyticObjectFiltersToMap:
+          description: |-
+            A list of analytic object filters indicating the analytic object and dimension members used
+             for the selection concept.
+
+             Note: If this array is empty, all filters will be removed for the concept.
+          items:
+            $ref: '#/components/schemas/AnalyticObjectFilterDTO'
+          type: array
+      required:
+      - conceptId
+      type: object
+      x-do-not-generate: true
+      x-konfig-is-parameter:
+      - conceptId
+  securitySchemes:
+    CookieAuth:
+      in: cookie
+      name: VisierASIDToken
+      type: apiKey
+      x-konfig-globally-required-security: false
+    ApiKeyAuth:
+      in: header
+      name: apikey
+      type: apiKey
+      x-konfig-globally-required-security: true
+    BearerAuth:
+      scheme: bearer
+      type: http
+      x-konfig-globally-required-security: false
+    OAuth2Auth:
+      flows:
+        authorizationCode:
+          authorizationUrl: /v1/auth/oauth2/authorize
+          scopes:
+            read: Grants read access
+            write: Grants write access
+          tokenUrl: /v1/auth/oauth2/token
+        password:
+          scopes:
+            read: Grants read access
+            write: Grants write access
+          tokenUrl: /v1/auth/oauth2/token
+      type: oauth2
+      x-konfig-globally-required-security: false
+
